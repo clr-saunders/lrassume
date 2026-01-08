@@ -58,11 +58,11 @@ representative at an online or offline event.
 
 ## Enforcement
 
-[//]: # (TODO: You need to choose whom and how to contact them.)
+The community leaders for this project are the authors, Harpreet Singh,
+Ojasv Issar, Tanav Singh Bajaj and Claire Saunders. 
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-\[INSERT CONTACT METHOD\].
+reported to the community leaders responsible for enforcement at clamwoodsaunders@gmail.com. 
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
