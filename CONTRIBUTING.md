@@ -67,7 +67,7 @@ local development.
 
 3. [Install hatch](https://hatch.pypa.io/latest/install/).
 
-4. Create a branch for local development using the default branch (typically `main`) as a starting point. Use `fix` or `feat` as a prefix for your branch name.
+4. Create a branch for local development using the default branch (typically `main`) as a starting point. Use `fix` or `feat` as a prefix for your branch name. Hatch will manage dependencies and environments for you!
 
     ```shell
     git checkout main
