@@ -15,12 +15,21 @@ df_example = pd.DataFrame({
 # Test Valid Cases
 # ------------------------------------
 def test_check_linearity_basic():
-    """Basic threshold 0.7 with alphabetical tie-breaks"""
+    """Basic threshold 0.7 test case."""
     expected = pd.DataFrame({
         'feature': ['age', 'sqft', 'num_rooms'],
         'correlation': [-1.000, 1.000, 0.945]
     })
     result = check_linearity(df_example, target="price", threshold=0.7)
+    pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
+
+def test_check_linearity_threshold_default():
+    """Test default threshold 0.7 behavior."""
+    expected = pd.DataFrame({
+        'feature': ['age', 'sqft', 'num_rooms'],
+        'correlation': [-1.000, 1.000, 0.945]
+    })
+    result = check_linearity(df_example, target="price")
     pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
 
 def test_check_linearity_threshold_one():
@@ -62,41 +71,52 @@ def test_check_linearity_no_features():
     pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
 
 def test_check_linearity_tie_break():
-    """Test alphabetical tie-break when multiple features have the same absolute correlation."""
+    """Test alphabetical tie-break when multiple features have the same absolute correlation.
+
+    Creates a duplicate feature with the same correlation as an existing feature. 
+    Verifies that the output is sorted first by absolute correlation descending, 
+    then alphabetically by feature name.
+    """
     df_tie = df_example.copy()
-    # To match correlation, create copy of a feature with different name
+    # Duplicate 'num_rooms' to create tie in absolute correlation
     df_tie['num_rooms_clone'] = df_tie['num_rooms']
-    expected = pd.DataFrame({
-        'feature': ['age', 'sqft', 'num_rooms', 'num_rooms_clone'],
-        'correlation': [-1.000, 1.000, 0.945, 0.945]
-    })
+    
     result = check_linearity(df_tie, target="price", threshold=0.7)
-    pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
+    
+    # Check correlations
+    expected_corrs = [-1.000, 1.000, 0.945, 0.945]
+    assert result['correlation'].tolist() == expected_corrs, "Correlation values are incorrect."
+    
+    # Check alphabetical ordering for tie-break
+    expected_order = ['age', 'sqft', 'num_rooms', 'num_rooms_clone']
+    assert result['feature'].tolist() == expected_order, "Tie-break alphabetical ordering failed."
 
 def test_check_linearity_rounding():
     """Test that correlations returned are rounded to three decimal places"""
     result = check_linearity(df_example, target='price', threshold=0.0)
     assert all(result['correlation'].apply(lambda x: round(x, 3) == x))
+
 #------------------------------------- 
-# Test Error Cases for Invalid Inputs
+# Test Error Cases
 # ------------------------------------
+
 def test_check_linearity_invalid_target():
     """Test invalid target column raises ValueError"""
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Target column 'nonexistent' does not exist in DataFrame."):
         check_linearity(df_example, target="nonexistent", threshold=0.7)
 
 def test_check_linearity_non_numeric_target():
     """Test non-numeric target column raises TypeError"""
     df_copy = df_example.copy()
     df_copy["price"] = df_copy["price"].astype(str)
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match="Target column must be numeric."):
         check_linearity(df_copy, target="price")
 
 def test_check_linearity_invalid_threshold():
     """Test invalid threshold raises ValueError"""
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Threshold must be between 0 and 1."):
         check_linearity(df_example, target="price", threshold=1.5)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Threshold must be between 0 and 1."):
         check_linearity(df_example, target="price", threshold=-0.1) 
 
 def test_check_linearity_df_type():
@@ -124,3 +144,24 @@ def test_check_linearity_threshold_type():
     with pytest.raises(TypeError, match="Input 'threshold' must be a numeric value."):
         check_linearity(df_example, target="price", threshold=None)
 
+def test_check_linearity_missing_arguments():
+    """Test behavior when required arguments are missing or None."""
+    # df missing
+    with pytest.raises(TypeError, match="Missing required argument: df"):
+        check_linearity(target="price", threshold=0.7)
+
+    # target missing
+    with pytest.raises(TypeError, match="Missing required argument: target"):
+        check_linearity(df=df_example, threshold=0.7)
+
+    # df is None
+    with pytest.raises(TypeError, match="Input 'df' cannot be None"):
+        check_linearity(df=None, target="price")
+
+    # target is None
+    with pytest.raises(TypeError, match="Input 'target' cannot be None"):
+        check_linearity(df=df_example, target=None)
+
+    # threshold missing is fine (optional)
+    result = check_linearity(df=df_example, target="price")
+    assert not result.empty, "Function failed when threshold argument was omitted."
