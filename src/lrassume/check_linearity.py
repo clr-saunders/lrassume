@@ -49,25 +49,26 @@ def check_linearity(df: pd.DataFrame, target: str, threshold: float = 0.7) -> pd
   if not (0 <= threshold <= 1):
         raise ValueError("Threshold must be between 0 and 1.")
 
-  correlations = []
+    # Compute correlations for all numeric columns at once
+  numeric_cols = df.select_dtypes(include='number').columns.drop(target, errors='ignore')
+  corrs = df[numeric_cols].corrwith(df[target]).round(3)
 
-  for col in df.columns:
-      if col == target:
-            continue
-      if is_numeric_dtype(df[col]):
-            corr = df[col].corr(df[target], method="pearson")
-            if pd.notna(corr) and abs(corr) >= threshold:
-                correlations.append({"feature": col, "correlation": corr})
+    # Filter correlations by threshold
+  corrs = corrs[abs(corrs) >= threshold]
 
-  result = (
-        pd.DataFrame(correlations)
-        .assign(correlation=lambda df: df['correlation'].round(3))  # round for stability
-        # Sort by absolute correlation descending; feature name ascending for tie-break
-        .sort_values(
-            by=['correlation', 'feature'],
-            key=lambda x: x.abs() if x.name == 'correlation' else x,
-            ascending=[False, True]
-        )
-        .reset_index(drop=True)
-    )
+    # If no features meet the threshold, return empty DataFrame
+  if corrs.empty:
+      return pd.DataFrame({
+          "feature": pd.Series(dtype="object"),
+          "correlation": pd.Series(dtype="float")
+        })
+
+    # Convert Series to DataFrame
+  result = corrs.reset_index()
+  result.columns = ['feature', 'correlation']
+
+    # Sort by absolute correlation descending, then alphabetically by feature for tie-breaks
+  result['abs_corr'] = result['correlation'].abs()
+  result = result.sort_values(by=['abs_corr', 'feature'], ascending=[False, True]).drop(columns='abs_corr').reset_index(drop=True)
+
   return result
