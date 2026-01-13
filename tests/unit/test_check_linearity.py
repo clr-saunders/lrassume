@@ -23,15 +23,6 @@ def test_check_linearity_basic():
     result = check_linearity(df_example, target="price", threshold=0.7)
     pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
 
-def test_check_linearity_threshold_default():
-    """Test default threshold 0.7 behavior."""
-    expected = pd.DataFrame({
-        'feature': ['age', 'sqft', 'num_rooms'],
-        'correlation': [-1.000, 1.000, 0.945]
-    })
-    result = check_linearity(df_example, target="price")
-    pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
-
 def test_check_linearity_threshold_one():
     """Test threshold edge case 1.0 (features equal to threshold are included)."""
     expected = pd.DataFrame({
@@ -48,6 +39,15 @@ def test_check_linearity_threshold_zero():
         'correlation': [-1.000, 1.000, 0.945, 0.600, 0.483]
     })
     result = check_linearity(df_example, target="price", threshold=0.0)
+    pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
+
+def test_check_linearity_threshold_default():
+    """Test default threshold 0.7 behavior."""
+    expected = pd.DataFrame({
+        'feature': ['age', 'sqft', 'num_rooms'],
+        'correlation': [-1.000, 1.000, 0.945]
+    })
+    result = check_linearity(df_example, target="price")
     pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
 
 def test_check_linearity_no_numeric_features():
@@ -107,31 +107,10 @@ df_example = pd.DataFrame({
     "neighbourhood": ["A", "B", "A", "B", "A"],
     "price": [150, 180, 210, 240, 270]
 })
+
 # -------------------------------------
 # Test Error Cases
 # -------------------------------------
-def test_check_linearity_invalid_target():
-    """Raise ValueError if the target column does not exist in the DataFrame."""
-    with pytest.raises(ValueError, match="Target column 'nonexistent' not found in DataFrame."):
-        check_linearity(df_example, target="nonexistent", threshold=0.7)
-
-
-def test_check_linearity_non_numeric_target():
-    """Raise TypeError if the target column exists but is not numeric."""
-    df_copy = df_example.copy()
-    df_copy["price"] = df_copy["price"].astype(str)
-    with pytest.raises(TypeError, match="Target column must be numeric."):
-        check_linearity(df_copy, target="price")
-
-
-def test_check_linearity_invalid_threshold():
-    """Raise ValueError if the threshold is not between 0 and 1."""
-    with pytest.raises(ValueError, match="Threshold must be between 0 and 1."):
-        check_linearity(df_example, target="price", threshold=1.5)
-    with pytest.raises(ValueError, match="Threshold must be between 0 and 1."):
-        check_linearity(df_example, target="price", threshold=-0.1)
-
-
 def test_check_linearity_df_type():
     """Raise TypeError if the input df is not a pandas DataFrame."""
     not_a_df = [1, 2, 3, 4]
@@ -158,6 +137,25 @@ def test_check_linearity_threshold_type():
 
     with pytest.raises(TypeError, match="Input 'threshold' must be a numeric value."):
         check_linearity(df_example, target="price", threshold=None)
+
+def test_check_linearity_invalid_target():
+    """Raise ValueError if the target column does not exist in the DataFrame."""
+    with pytest.raises(ValueError, match="Target column 'nonexistent' not found in DataFrame."):
+        check_linearity(df_example, target="nonexistent", threshold=0.7)
+
+def test_check_linearity_non_numeric_target():
+    """Raise TypeError if the target column exists but is not numeric."""
+    df_copy = df_example.copy()
+    df_copy["price"] = df_copy["price"].astype(str)
+    with pytest.raises(TypeError, match="Target column must be numeric."):
+        check_linearity(df_copy, target="price")
+
+def test_check_linearity_invalid_threshold():
+    """Raise ValueError if the threshold is not between 0 and 1."""
+    with pytest.raises(ValueError, match="Threshold must be between 0 and 1."):
+        check_linearity(df_example, target="price", threshold=1.5)
+    with pytest.raises(ValueError, match="Threshold must be between 0 and 1."):
+        check_linearity(df_example, target="price", threshold=-0.1)
 
 
 def test_check_linearity_missing_arguments():
