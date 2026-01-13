@@ -1,3 +1,19 @@
+"""
+test_check_linearity.py
+Unit tests for the `check_linearity` function from the `lrassume` package.
+
+This module uses pytest to validate the behavior of `check_linearity` with various scenarios,
+including:
+
+- Standard functionality with different threshold values.
+- Edge cases (thresholds 0.0 and 1.0, tie-breaking).
+- Handling of DataFrames with no numeric features.
+- Correct ordering of results.
+- Proper exceptions when input types or values are invalid.
+
+All tests ensure that `check_linearity` returns correct outputs and raises appropriate errors.
+"""
+
 import pytest
 import pandas as pd
 from lrassume.check_linearity import check_linearity
@@ -156,7 +172,6 @@ def test_check_linearity_invalid_threshold():
         check_linearity(df_example, target="price", threshold=1.5)
     with pytest.raises(ValueError, match="Threshold must be between 0 and 1."):
         check_linearity(df_example, target="price", threshold=-0.1)
-
 
 def test_check_linearity_missing_arguments():
     """Raise TypeError when df or target is None; threshold is optional."""

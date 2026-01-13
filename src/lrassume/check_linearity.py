@@ -1,3 +1,17 @@
+"""
+check_linearity.py
+Module for analyzing linear relationships between numeric features and a target variable.
+
+This module provides tools for identifying features in a pandas DataFrame that have a 
+strong linear relationship with a specified numeric target column using Pearson correlation.
+
+Functions
+---------
+- check_linearity(df, target, threshold=0.7)
+    Identifies numeric features with absolute Pearson correlation above a given threshold
+    relative to the target column.
+"""
+
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 
