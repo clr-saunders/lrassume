@@ -16,17 +16,20 @@ All tests ensure that `check_linearity` returns correct outputs and raises appro
 
 import pytest
 import pandas as pd
-from lrassume.check_linearity import check_linearity
+from lrassume import check_linearity
 
-df_example = pd.DataFrame({
-    "sqft": [500, 600, 700, 800, 900],
-    "num_rooms": [1, 1, 2, 2, 3],
-    "age": [50, 40, 30, 20, 10],
-    "school_score": [60, 65, 55, 75, 70],
-    "random_noise": [42, 17, 88, 55, 63],
-    "neighbourhood": ["A", "B", "A", "B", "A"],
-    "price": [150, 180, 210, 240, 270]
-})
+@pytest.fixture
+def df_example():
+    """Fixture providing a sample DataFrame for testing."""
+    return pd.DataFrame({
+        "sqft": [500, 600, 700, 800, 900],
+        "num_rooms": [1, 1, 2, 2, 3],
+        "age": [50, 40, 30, 20, 10],
+        "school_score": [60, 65, 55, 75, 70],
+        "random_noise": [42, 17, 88, 55, 63],
+        "neighbourhood": ["A", "B", "A", "B", "A"],
+        "price": [150, 180, 210, 240, 270]
+    })
 # -------------------------------------
 # Test Valid Cases
 # ------------------------------------
