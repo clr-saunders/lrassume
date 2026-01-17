@@ -38,7 +38,8 @@ dependencies = [
     "pytest-cov",
     "statsmodels",
     "numpy",
-    "pandas"]
+    "pandas",
+    "scipy"]
 
 [project.urls]
 Homepage = "https://github.com//lrassume"
