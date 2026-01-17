@@ -36,19 +36,33 @@ pip install -e .
 
 ### Check Independence
 
-Detect autocorrelation in residuals using the Durbin-Watson statistic:
-
+This function fits a linear model and checks for autocorrelation in the residuals.
 ```python
-import numpy as np
+import pandas as pd
 from lrassume import check_independence
 
-# Calculate residuals from your model
-residuals = np.array([0.1, -0.2, 0.05, 0.15, -0.1])
+# Create sample data
+df = pd.DataFrame({
+    "x1": [1, 2, 3, 4, 5],
+    "x2": [2, 4, 5, 7, 8],
+    "y": [10, 20, 25, 35, 40]
+})
 
-result = check_independence(residuals)
-print(result['dw_statistic'])  # ~2.0 indicates no autocorrelation
-print(result['is_independent'])  # True if independent
+# Check independence of residuals
+result = check_independence(df, target="y")
+
+# View results
+print(result['dw_statistic'])    # 0.0727
+print(result['is_independent'])  # False
+print(result['message'])         # "Positive autocorrelation detected. Residuals may not be independent."
 ```
+
+**Interpreting the Durbin-Watson statistic:**
+- **1.5 to 2.5**: No significant autocorrelation (residuals are independent) ✓
+- **< 1.5**: Positive autocorrelation detected
+- **> 2.5**: Negative autocorrelation detected
+
+**Note:** The function automatically uses all numeric columns (except the target) as predictors and handles the intercept term internally.
 
 ### Check Linearity
 
@@ -67,10 +81,9 @@ df = pd.DataFrame({
 
 linear_features = check_linearity(df, target="price", threshold=0.7)
 print(linear_features)
-#       feature  correlation
-# 0        sqft        0.994
-# 1         age       -0.952
-# 2   num_rooms        0.703
+#  feature  correlation
+# 0    sqft        0.999
+# 1     age       -0.990
 ```
 
 ### Check Multicollinearity
@@ -81,19 +94,19 @@ Compute Variance Inflation Factors to detect multicollinearity:
 import pandas as pd
 from lrassume import check_multicollinearity_vif
 
-X = pd.DataFrame({
-    'x1': [1, 2, 3, 4, 5],
-    'x2': [2, 4, 5, 7, 8],
-    'x3': [1, 3, 2, 5, 4]
+X = pd.DataFrame({"sqft": [800, 900, 1000, 1100, 1200, 1300, 1400, 1500],
+     "bedrooms": [1, 2, 1, 3, 2, 4, 3, 5],
+     "age": [30, 5, 40, 10, 25, 15, 35, 20]
 })
 
 vif_table, summary = check_multicollinearity_vif(X, warn_threshold=5.0)
 print(summary['overall_status'])  # 'ok', 'warn', or 'severe'
+# severe
 print(vif_table)
-#    feature       vif level
-# 0       x2  1.456789    ok
-# 1       x1  1.234567    ok
-# 2       x3  1.123456    ok
+#    feature        vif   level
+# 0  bedrooms  11.100000  severe
+#      sqft   9.402273    warn
+#       age   3.102273      ok
 ```
 
 ### Check Homoscedasticity
