@@ -6,11 +6,9 @@ for linear regression workflows.
 """
 
 from __future__ import annotations
-
 from typing import Any, Dict, Literal, Optional, Tuple
-
 import pandas as pd
-
+import numpy as np
 
 CategoricalHandling = Literal["error", "drop"]
 
@@ -109,7 +107,6 @@ def check_multicollinearity_vif(
     - The auxiliary regressions used to compute R_j^2 include an intercept term.
     - Constant columns have no variance and will cause numerical issues if not dropped.
     """
-    import numpy as np
 
     if not isinstance(X, pd.DataFrame):
         raise ValueError("X must be a pandas DataFrame.")
