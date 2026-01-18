@@ -16,21 +16,71 @@
 - **Multicollinearity Detection**: Variance Inflation Factor (VIF) calculation with configurable thresholds
 - **Homoscedasticity Testing**: Multiple statistical tests (Breusch-Pagan, White, Goldfeld-Quandt) to detect heteroscedasticity
 
+---
+
 ## Installation
 
-Install lrassume using pip:
+### Install from PyPI (users)
+
+> **Note:** This command will work only after the package is published to PyPI.
 
 ```bash
 pip install lrassume
 ```
+---
 
-For development installation:
+### Development installation
 
 ```bash
 git clone https://github.com/yourusername/lrassume.git
 cd lrassume
 pip install -e .
 ```
+---
+
+## Conda-based setup (recommended for development)
+
+This project uses **Conda** to manage the Python environment and **pip** to install project dependencies.
+
+### 1. Create the Conda environment
+
+From the project root directory:
+
+```bash
+conda env create -f environment.yml
+conda activate lrassume
+```
+
+The `environment.yml` file installs Python only.
+All runtime dependencies are specified in `pyproject.toml`.
+
+### 2. Install the package and dependencies
+
+```bash
+pip install -e .
+```
+
+---
+
+## Running the Test Suite (Developers)
+
+The test suite requires **pytest**, which is a development dependency and is not installed automatically for users of the package.
+
+Install pytest in the active environment:
+
+```bash
+conda install pytest
+# or
+pip install pytest
+```
+
+Then run:
+
+```bash
+pytest
+```
+
+---
 
 ## Quick Start
 
@@ -52,9 +102,9 @@ df = pd.DataFrame({
 result = check_independence(df, target="y")
 
 # View results
-print(result['dw_statistic'])    # 0.0727
-print(result['is_independent'])  # False
-print(result['message'])         # "Positive autocorrelation detected. Residuals may not be independent."
+print(result['dw_statistic'])    
+print(result['is_independent'])  
+print(result['message'])         
 ```
 
 **Interpreting the Durbin-Watson statistic:**
@@ -105,8 +155,8 @@ print(summary['overall_status'])  # 'ok', 'warn', or 'severe'
 print(vif_table)
 #    feature        vif   level
 # 0  bedrooms  11.100000  severe
-#      sqft   9.402273    warn
-#       age   3.102273      ok
+# 1     sqft   9.402273    warn
+# 2      age   3.102273      ok
 ```
 
 ### Check Homoscedasticity
@@ -117,7 +167,7 @@ Test for constant variance in residuals:
 import pandas as pd
 import numpy as np
 from lrassume import check_homoscedasticity
-
+np.random.seed(123)
 X = pd.DataFrame({
     'x1': np.linspace(1, 100, 100),
     'x2': np.random.randn(100)
@@ -125,10 +175,10 @@ X = pd.DataFrame({
 y = pd.Series(2 * X['x1'] + 3 * X['x2'] + np.random.randn(100))
 
 test_results, summary = check_homoscedasticity(X, y, method="breusch_pagan")
-print(summary['overall_conclusion'])  # 'homoscedastic' or 'heteroscedastic'
+print(summary['overall_conclusion'])  # 'homoscedastic' 
 print(test_results)
-#            test  statistic  p_value      conclusion  significant
-# 0  breusch_pagan      2.345    0.309  homoscedastic        False
+#            test  statistic  p_value     conclusion  significant
+# 0  breusch_pagan      1.111   0.5737  homoscedastic        False
 ```
 
 ## Core Assumptions Tested
@@ -191,15 +241,15 @@ test_results, summary = check_homoscedasticity(
     alpha=0.01  # 99% confidence level
 )
 ```
-
 ## Function Reference
 
 | Function | Purpose | Key Parameters |
 |----------|---------|----------------|
-| `check_independence()` | Durbin-Watson test for autocorrelation | `residuals` |
+| `check_independence()` | Durbin-Watson test for autocorrelation | `df`, `target` |
 | `check_linearity()` | Pearson correlation analysis | `df`, `target`, `threshold` |
 | `check_multicollinearity_vif()` | VIF calculation | `X`, `warn_threshold`, `severe_threshold` |
 | `check_homoscedasticity()` | Heteroscedasticity testing | `X`, `y`, `method`, `alpha` |
+
 
 ## Interpretation Guidelines
 
@@ -216,15 +266,6 @@ test_results, summary = check_homoscedasticity(
 ### Homoscedasticity Tests
 - **p-value > α**: Fail to reject null hypothesis (homoscedastic)
 - **p-value ≤ α**: Reject null hypothesis (heteroscedastic)
-
-## Requirements
-
-- Python ≥ 3.8
-- pandas ≥ 1.3.0
-- numpy ≥ 1.21.0
-- scipy ≥ 1.7.0 (for statistical tests)
-- scikit-learn ≥ 1.0.0 (optional, for model integration)
-- matplotlib ≥ 3.4.0 (for plotting functions)
 
 ## Contributing
 
