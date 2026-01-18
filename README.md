@@ -17,46 +17,71 @@
 - **Homoscedasticity Testing**: Multiple statistical tests (Breusch-Pagan, White, Goldfeld-Quandt) to detect heteroscedasticity
 
 ---
-
 ## Installation
 
-### Install from PyPI (users)
+### Install from PyPI (Users)
 
-> **Note:** This command will work only after the package is published to PyPI.
+This option is recommended if you want to use `lrassume` in your own projects and do not need to modify the source code.
+
+> **Note**  
+> This command will work only after the package is published to PyPI.
 
 ```bash
 pip install lrassume
 ```
+
 ---
 
-### Development installation
+### Development Setup (Recommended)
+
+This option is recommended if you want to develop, modify, or contribute to `lrassume`.
+
+This project uses **Conda** to manage the Python environment and **pip** to install project dependencies.
+
+---
+
+#### 1. Clone the Repository
+
+Clone the repository and move into the project directory:
 
 ```bash
 git clone https://github.com/yourusername/lrassume.git
 cd lrassume
-pip install -e .
 ```
+
 ---
 
-## Conda-based setup (recommended for development)
- **Prerequisite:** Clone the repository first (see *Development installation* above).
-This project uses **Conda** to manage the Python environment and **pip** to install project dependencies.
+#### 2. Create and Activate the Conda Environment
 
-### 1. Create the Conda environment
-
-From the project root directory:
+From the project root directory, create and activate the Conda environment:
 
 ```bash
 conda env create -f environment.yml
 conda activate lrassume
 ```
 
-The `environment.yml` file installs Python only.
-All runtime dependencies are specified in `pyproject.toml`.
+> The `environment.yml` file installs Python only.
+> All runtime dependencies are specified in `pyproject.toml`.
 
-### 2. Install the package and dependencies
+---
+
+#### 3. Install the Package in Editable Mode
+
+Install the package and its dependencies in editable (development) mode:
 
 ```bash
+pip install -e .
+```
+
+---
+
+### Alternative: Development Without Conda
+
+If you prefer not to use Conda, you can install the package directly using pip:
+
+```bash
+git clone https://github.com/yourusername/lrassume.git
+cd lrassume
 pip install -e .
 ```
 
@@ -66,7 +91,9 @@ pip install -e .
 
 The test suite requires **pytest**, which is a development dependency and is not installed automatically for users of the package.
 
-Install pytest in the active environment:
+---
+
+### Install pytest
 
 ```bash
 conda install pytest
@@ -74,12 +101,13 @@ conda install pytest
 pip install pytest
 ```
 
-Then run:
+---
+
+### Run the tests
 
 ```bash
 pytest
 ```
-
 ---
 
 ## Quick Start
