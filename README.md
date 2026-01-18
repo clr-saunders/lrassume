@@ -39,7 +39,7 @@ pip install -e .
 ---
 
 ## Conda-based setup (recommended for development)
-
+ **Prerequisite:** Clone the repository first (see *Development installation* above).
 This project uses **Conda** to manage the Python environment and **pip** to install project dependencies.
 
 ### 1. Create the Conda environment
