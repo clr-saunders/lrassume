@@ -111,7 +111,7 @@ class TestFunctionality:
         result = check_independence(df, target="y")
         
         # Should detect independence (DW near 2)
-        assert result['is_independent'] == True
+        assert result['is_independent']
         assert 1.5 <= result['dw_statistic'] <= 2.5
     
     def test_positive_autocorrelation(self):
