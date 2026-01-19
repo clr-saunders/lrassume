@@ -109,21 +109,6 @@ def test_check_linearity_tie_break():
     # Check alphabetical ordering for tie-break
     expected_order = ['age', 'sqft', 'num_rooms', 'num_rooms_clone']
     assert result['feature'].tolist() == expected_order, "Tie-break alphabetical ordering failed."
-
-#------------------------------------- 
-# Test Error Cases
-# ------------------------------------
-
-df_example = pd.DataFrame({
-    "sqft": [500, 600, 700, 800, 900],
-    "num_rooms": [1, 1, 2, 2, 3],
-    "age": [50, 40, 30, 20, 10],
-    "school_score": [60, 65, 55, 75, 70],
-    "random_noise": [42, 17, 88, 55, 63],
-    "neighbourhood": ["A", "B", "A", "B", "A"],
-    "price": [150, 180, 210, 240, 270]
-})
-
 # -------------------------------------
 # Test Error Cases
 # -------------------------------------
