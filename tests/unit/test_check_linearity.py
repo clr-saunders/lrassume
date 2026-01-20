@@ -96,6 +96,7 @@ def test_check_linearity_no_feature_target_correlation(df_example):
     result = check_linearity(df_example_2, target="price", threshold=0.8)
     pd.testing.assert_frame_equal(result.reset_index(drop=True), expected)
 
+
 def test_check_linearity_with_missing_values(df_example):
     """Test handling of missing values in numeric features.
 
@@ -144,7 +145,6 @@ def test_check_linearity_tie_break(df_example):
     assert (
         result["feature"].tolist() == expected_order
     ), "Tie-break alphabetical ordering failed."
-
 
 
 # -------------------------------------
