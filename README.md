@@ -5,7 +5,6 @@
 | Package | [![Latest PyPI Version](https://img.shields.io/pypi/v/lrassume.svg)](https://test.pypi.org/project/lrassume/) [![Supported Python Versions](https://img.shields.io/pypi/pyversions/lrassume.svg)](https://pypi.org/project/lrassume/)  |
 | Meta   | [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md) |
 
-*Note: The above badges will only work once the package is published to PyPI.*
 
 **lrassume** (Linear Regression Assumption Validator) is a Python package for validating the core assumptions of linear regression models. It provides statistical tests and diagnostic tools to assess independence, linearity, multicollinearity, and homoscedasticity in your regression workflows.
 
@@ -19,7 +18,7 @@
 ---
 ## Installation
 
-### Install from PyPI (Users)
+### User Setup
 
 This option is recommended if you want to use `lrassume` in your own projects and do not need to modify the source code.
 
@@ -37,9 +36,7 @@ This project uses **Conda** to manage the Python environment and **pip** to inst
 
 ---
 
-#### 1. Clone the Repository
-
-Clone the repository and move into the project directory:
+#### 1. Clone the Repository and Navigate to the Project Directory
 
 ```bash
 git clone https://github.com/yourusername/lrassume.git
@@ -50,7 +47,7 @@ cd lrassume
 
 #### 2. Create and Activate the Conda Environment
 
-From the project root directory, create and activate the Conda environment:
+From the project root directory:
 
 ```bash
 conda env create -f environment.yml
@@ -63,8 +60,6 @@ conda activate lrassume
 ---
 
 #### 3. Install the Package in Editable Mode
-
-Install the package and its dependencies in editable (development) mode:
 
 ```bash
 pip install -e .
@@ -84,7 +79,7 @@ pip install -e .
 
 ---
 
-## Running the Test Suite (Developers)
+## Running the Test Suite Locally (Developers)
 
 The test suite requires **pytest**, which is a development dependency and is not installed automatically for users of the package.
 
@@ -106,6 +101,80 @@ pip install pytest
 pytest
 ```
 ---
+
+## Documentation
+
+The full package documentation is built with **Quartodoc** and deployed automatically to **GitHub Pages**.
+
+**Live documentation:**
+
+```
+https://yourusername.github.io/lrassume/
+```
+
+(Replace `yourusername` with your GitHub username or organization.)
+
+---
+
+### Build Documentation Locally (Developers)
+
+To build the documentation locally:
+
+1. Ensure you are in the development environment:
+
+```bash
+conda activate lrassume
+```
+
+2. Install documentation dependencies (if not already installed):
+
+```bash
+pip install -e ".[docs]"
+```
+
+3. Build the documentation:
+
+```bash
+quartodoc build
+quarto render docs
+```
+
+4. Preview the documentation locally:
+
+```bash
+quarto preview docs
+```
+
+This will open the documentation site in your browser.
+
+---
+
+### Documentation Structure
+
+* `docs/` — Quarto documentation source
+* `docs/reference/` — API reference generated from docstrings using Quartodoc
+* `docs/index.qmd` — Documentation homepage
+
+All function docstrings are automatically rendered into the API reference.
+
+---
+
+### Deploy Documentation (Automated)
+
+Documentation deployment is **fully automated** using **GitHub Actions**.
+
+On every push to the `main` branch:
+
+1. GitHub Actions builds the documentation using Quarto and Quartodoc
+2. The rendered site is deployed to **GitHub Pages**
+
+No manual deployment steps are required.
+
+The workflow file can be found at:
+
+```
+.github/workflows/docs.yml
+```
 
 ## Quick Start
 
