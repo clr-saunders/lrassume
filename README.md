@@ -131,9 +131,8 @@ The full package documentation is built with **Quartodoc** and deployed automati
 
 **Live documentation:**
 
-
 ```
-INSERT LINK once DEPLOYED
+https://ubc-mds.github.io/lrassume/ 
 ```
 
 ---
