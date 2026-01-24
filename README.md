@@ -22,7 +22,7 @@
 This option is recommended if you want to use `lrassume` in your own projects and do not need to modify the source code.
 
 ```bash
-pip install -i https://test.pypi.org/simple/ lrassume
+pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ lrassume
 ```
 
 ---
