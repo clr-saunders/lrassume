@@ -15,7 +15,6 @@
 - **Multicollinearity Detection**: Variance Inflation Factor (VIF) calculation with configurable thresholds
 - **Homoscedasticity Testing**: Multiple statistical tests (Breusch-Pagan, White, Goldfeld-Quandt) to detect heteroscedasticity
 
----
 ## Installation
 
 ### User Setup
@@ -65,8 +64,6 @@ conda activate lrassume
 pip install -e .
 ```
 
----
-
 ### Alternative: Development Without Conda
 
 If you prefer not to use Conda, you can install the package directly using pip:
@@ -76,8 +73,6 @@ git clone https://github.com/UBC-MDS/lrassume.git
 cd lrassume
 pip install -e .
 ```
-
----
 
 ## Running the Test Suite Locally (Developers)
 
@@ -102,8 +97,6 @@ pip install pytest
 pytest
 ```
 
----
-
 ## Continuous Integration (Automated Testing)
 
 This project uses **GitHub Actions** to automatically run the test suite.
@@ -121,54 +114,52 @@ No manual action is required to trigger these tests.
 
 The GitHub Actions workflow responsible for running the test suite is located at:
 
-```
-.github/workflows/test.yml
-```
+`.github/workflows/test.yml`
+
+---
 
 ## Documentation
 
 The full package documentation is built with **Quartodoc** and deployed automatically to **GitHub Pages**.
 
-**Live documentation:**
-
-```
-https://ubc-mds.github.io/lrassume/ 
-```
-
----
+**Live documentation:** https://ubc-mds.github.io/lrassume/
 
 ### Build Documentation Locally (Developers)
 
-To build the documentation locally:
+To preview documentation changes before pushing:
 
-1. Ensure you are in the development environment:
-
+1. **Ensure you are in the development environment:**
 ```bash
-conda activate lrassume
+   conda activate lrassume
 ```
 
-2. Install documentation dependencies (if not already installed):
-
+2. **Install documentation dependencies:**
 ```bash
-pip install -e ".[docs]"
+   pip install -e ".[docs]"
 ```
 
-3. Build the documentation:
-
+3. **Build the documentation:**
 ```bash
-quartodoc build
-quarto render docs
+   quartodoc build
+   quarto render docs
 ```
 
-4. Preview the documentation locally:
-
+4. **Preview the documentation locally:**
 ```bash
-quarto preview docs
+   quarto preview docs
 ```
+   
+   This will open the documentation site in your browser.
 
-This will open the documentation site in your browser.
+### Update Documentation
 
----
+To update documentation:
+
+1. **Edit docstrings** in Python source files (`lrassume/*.py`)
+2. **Rebuild locally** using the steps above to verify changes
+3. **Commit and push** to your branch
+
+Note: The documentation is automatically generated from your Python docstrings.
 
 ### Deploy Documentation (Automated)
 
@@ -183,15 +174,14 @@ No manual deployment steps are required.
 
 The workflow file can be found at:
 
-```
-.github/workflows/docs.yml
-```
+`.github/workflows/docs.yml`
 
 ## Quick Start
 
 ### Check Independence
 
 This function fits a linear model and checks for autocorrelation in the residuals.
+
 ```python
 import pandas as pd
 from lrassume import check_independence
