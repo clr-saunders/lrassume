@@ -179,7 +179,7 @@ No manual deployment steps are required.
 
 The workflow file can be found at:
 
-`.github/workflows/docs.yml`
+`.github/workflows/docs-publish.yml`
 
 ## Quick Start
 
