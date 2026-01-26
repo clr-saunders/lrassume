@@ -51,10 +51,7 @@ dev = [
 docs = [
     "quartodoc<0.7",
     "griffe<0.37",
-    "statsmodels",
-    "numpy",
-    "pandas",
-    "scipy",
+    "jupyter"
 ]
 
 build = [
