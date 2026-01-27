@@ -4,8 +4,7 @@
 |--------|--------|
 | Package | [![Latest PyPI Version](https://img.shields.io/pypi/v/lrassume.svg)](https://test.pypi.org/project/lrassume/) [![Supported Python Versions](https://img.shields.io/pypi/pyversions/lrassume.svg)](https://pypi.org/project/lrassume/)  |
 | Meta   | [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md) |
-
-*Note: The above badges will only work once the package is published to PyPI.*
+[![codecov](https://codecov.io/gh/UBC-MDS/lrassume/graph/badge.svg?token=paQJYXz5xr)](https://codecov.io/gh/UBC-MDS/lrassume)
 
 **lrassume** (Linear Regression Assumption Validator) is a Python package for validating the core assumptions of linear regression models. It provides statistical tests and diagnostic tools to assess independence, linearity, multicollinearity, and homoscedasticity in your regression workflows.
 
@@ -16,18 +15,19 @@
 - **Multicollinearity Detection**: Variance Inflation Factor (VIF) calculation with configurable thresholds
 - **Homoscedasticity Testing**: Multiple statistical tests (Breusch-Pagan, White, Goldfeld-Quandt) to detect heteroscedasticity
 
----
+
+***
 ## Installation
 
-### Install from PyPI (Users)
+### User Setup
 
 This option is recommended if you want to use `lrassume` in your own projects and do not need to modify the source code.
 
 ```bash
-pip install -i https://test.pypi.org/simple/ lrassume
+pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ lrassume
 ```
 
----
+***
 
 ### Development Setup (Recommended)
 
@@ -35,22 +35,20 @@ This option is recommended if you want to develop, modify, or contribute to `lra
 
 This project uses **Conda** to manage the Python environment and **pip** to install project dependencies.
 
----
+***
 
-#### 1. Clone the Repository
-
-Clone the repository and move into the project directory:
+#### 1. Clone the Repository and Navigate to the Project Directory
 
 ```bash
-git clone https://github.com/yourusername/lrassume.git
+git clone https://github.com/UBC-MDS/lrassume.git
 cd lrassume
 ```
 
----
+***
 
 #### 2. Create and Activate the Conda Environment
 
-From the project root directory, create and activate the Conda environment:
+From the project root directory:
 
 ```bash
 conda env create -f environment.yml
@@ -60,35 +58,33 @@ conda activate lrassume
 > The `environment.yml` file installs Python only.
 > All runtime dependencies are specified in `pyproject.toml`.
 
----
+***
 
 #### 3. Install the Package in Editable Mode
-
-Install the package and its dependencies in editable (development) mode:
 
 ```bash
 pip install -e .
 ```
 
----
 
+***
 ### Alternative: Development Without Conda
 
 If you prefer not to use Conda, you can install the package directly using pip:
 
 ```bash
-git clone https://github.com/yourusername/lrassume.git
+git clone https://github.com/UBC-MDS/lrassume.git
 cd lrassume
 pip install -e .
 ```
 
----
+***
+## Running the Test Suite Locally (Developers)
 
-## Running the Test Suite (Developers)
+The test suite is executed using pytest. In CI this is managed via Hatch,
+but tests can also be run locally using pytest.
 
-The test suite requires **pytest**, which is a development dependency and is not installed automatically for users of the package.
-
----
+***
 
 ### Install pytest
 
@@ -98,7 +94,7 @@ conda install pytest
 pip install pytest
 ```
 
----
+***
 
 ### Run the tests
 
@@ -109,11 +105,91 @@ pytest
 
 ---
 
+***
+
+## Continuous Integration (Automated Testing)
+
+This project uses **GitHub Actions** to automatically run the test suite.
+
+The tests are executed automatically on:
+- Pull requests
+- Pushes to the `main` branch
+- A scheduled weekly run
+
+The test suite is executed using **Hatch**, which runs the project’s
+configured `pytest` test environment across multiple operating systems
+and Python versions.
+
+No manual action is required to trigger these tests.
+
+The GitHub Actions workflow responsible for running the test suite is located at:
+
+`.github/workflows/test.yml`
+
+
+## Documentation
+
+The full package documentation is built with **Quartodoc** and deployed automatically to **GitHub Pages**.
+
+**Live documentation:** https://ubc-mds.github.io/lrassume/
+
+### Build Documentation Locally (Developers)
+
+To preview documentation changes before pushing:
+
+1. **Ensure you are in the development environment:**
+```bash
+   conda activate lrassume
+```
+
+2. **Install documentation dependencies:**
+```bash
+   pip install -e ".[docs]"
+```
+
+3. **Build the documentation:**
+```bash
+   quartodoc build
+```
+
+4. **Preview the documentation locally:**
+```bash
+   quarto preview
+```
+   
+   This will open the documentation site in your browser.
+
+### Update Documentation
+
+To update documentation:
+
+1. **Edit docstrings** in Python source files (`lrassume/*.py`)
+2. **Rebuild locally** using the steps above to verify changes
+3. **Commit and push** to your branch
+
+Note: The documentation is automatically generated from your Python docstrings.
+
+### Deploy Documentation (Automated)
+
+Documentation deployment is **fully automated** using **GitHub Actions**.
+
+On every push to the `main` branch:
+
+1. GitHub Actions builds the documentation using Quarto and Quartodoc
+2. The rendered site is deployed to **GitHub Pages**
+
+No manual deployment steps are required.
+
+The workflow file can be found at:
+
+`.github/workflows/docs-publish.yml`
+
 ## Quick Start
 
 ### Check Independence
 
 This function fits a linear model and checks for autocorrelation in the residuals.
+
 ```python
 import pandas as pd
 from lrassume import check_independence
@@ -306,4 +382,4 @@ Free software distributed under the [MIT License](./LICENSE).
 
 ## Support
 
-For bug reports and feature requests, please open an issue on [GitHub](https://github.com/yourusername/lrassume/issues).
+For bug reports and feature requests, please open an issue on [GitHub](https://github.com/UBC-MDS/lrassume/issues).
