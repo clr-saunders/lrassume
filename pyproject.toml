@@ -28,6 +28,11 @@ dependencies = ["statsmodels", "numpy", "pandas", "scipy"]
 
 [tool.hatch.version]
 source = "vcs"
+raw-options = { version_scheme = "no-guess-dev", local_scheme = "no-local-version" }
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/lrassume/__version__.py"
+
 
 [project.urls]
 Homepage = "https://github.com/UBC-MDS/lrassume"
