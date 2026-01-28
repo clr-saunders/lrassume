@@ -1,0 +1,62 @@
+---
+title: "Getting Started with lrassume"
+format: html
+---
+
+## Installation
+
+Install from TestPyPI:
+```bash
+pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ lrassume
+```
+
+## What is lrassume?
+
+**lrassume** (Linear Regression Assumption Validator) helps you validate the four core assumptions of linear regression:
+
+1. **Independence**: Residuals are independent (no autocorrelation)
+2. **Linearity**: Linear relationship between predictors and target
+3. **Multicollinearity**: Predictors are not highly correlated
+4. **Homoscedasticity**: Constant variance in residuals
+
+## Basic Workflow
+
+Here's a typical workflow for validating a regression model:
+```{python}
+#| eval: false
+import pandas as pd
+from lrassume import (
+    check_independence,
+    check_linearity,
+    check_multicollinearity_vif,
+    check_homoscedasticity
+)
+
+# Load your data
+df = pd.read_csv("your_data.csv")
+
+# 1. Check for linear relationships
+linear_features = check_linearity(df, target="price", threshold=0.7)
+print(linear_features)
+
+# 2. Check for multicollinearity
+X = df.drop(columns=["price"])
+vif_table, vif_summary = check_multicollinearity_vif(X)
+print(vif_summary['overall_status'])
+
+# 3. Check independence of residuals
+independence_result = check_independence(df, target="price")
+print(independence_result['is_independent'])
+
+# 4. Check homoscedasticity
+y = df["price"]
+test_results, summary = check_homoscedasticity(X, y, method="all")
+print(summary['overall_conclusion'])
+```
+
+## Next Steps
+
+- [Independence Testing](independence.qmd)
+- [Linearity Assessment](linearity.qmd)
+- [Multicollinearity Detection](multicollinearity.qmd)
+- [Homoscedasticity Testing](homoscedasticity.qmd)

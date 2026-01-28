@@ -1,10 +1,8 @@
 # lrassume
-
 |        |        |
 |--------|--------|
-| Package | [![Latest PyPI Version](https://img.shields.io/pypi/v/lrassume.svg)](https://test.pypi.org/project/lrassume/) [![Supported Python Versions](https://img.shields.io/pypi/pyversions/lrassume.svg)](https://pypi.org/project/lrassume/)  |
-| Meta   | [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md) |
-[![codecov](https://codecov.io/gh/UBC-MDS/lrassume/graph/badge.svg?token=paQJYXz5xr)](https://codecov.io/gh/UBC-MDS/lrassume)
+| Package | [![TestPyPI](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftest.pypi.org%2Fpypi%2Flrassume%2Fjson&query=%24.info.version&label=TestPyPI&color=blue)](https://test.pypi.org/project/lrassume/) [![Python](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftest.pypi.org%2Fpypi%2Flrassume%2Fjson&query=%24.info.requires_python&label=python&color=blue)](https://test.pypi.org/project/lrassume/)  |
+| Meta   | [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md) [![codecov](https://codecov.io/gh/UBC-MDS/lrassume/graph/badge.svg?token=paQJYXz5xr)](https://codecov.io/gh/UBC-MDS/lrassume) |
 
 **lrassume** (Linear Regression Assumption Validator) is a Python package for validating the core assumptions of linear regression models. It provides statistical tests and diagnostic tools to assess independence, linearity, multicollinearity, and homoscedasticity in your regression workflows.
 
