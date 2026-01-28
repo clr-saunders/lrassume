@@ -20,5 +20,12 @@ website:
     search: true
     contents:
       - index.qmd
+      - section: "Tutorials"
+        contents:
+          - tutorials/getting-started.qmd
+          - tutorials/independence.qmd
+          - tutorials/linearity.qmd
+          - tutorials/multicollinearity.qmd
+          - tutorials/homoscedasticity.qmd
       - text: "API Reference"
         href: reference/index.qmd
